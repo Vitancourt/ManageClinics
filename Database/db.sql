@@ -21,8 +21,9 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbUsuario` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(50) NOT NULL,
   `cargo` VARCHAR(50) NOT NULL,
-  `usuario` VARCHAR(20) NOT NULL,
+  `usuario` VARCHAR(50) NOT NULL,
   `senha` VARCHAR(50) NOT NULL,
+  `ativo` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -37,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbPaciente` (
   `dataNasc` DATE NULL,
   `inicioTrat` DATE NULL,
   `tbUsuario_id` INT UNSIGNED NOT NULL,
+  `ativo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tbPaciente_tbUsuario1_idx` (`tbUsuario_id` ASC),
   CONSTRAINT `fk_tbPaciente_tbUsuario1`
@@ -58,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbAgenda` (
   `tbPaciente_id` INT UNSIGNED NOT NULL,
   `valor` DECIMAL NULL,
   `baixa` INT NOT NULL,
+  `ativo` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tbAgenda_tbUsuario_idx` (`tbUsuario_id` ASC),
   INDEX `fk_tbAgenda_tbPaciente1_idx` (`tbPaciente_id` ASC),
