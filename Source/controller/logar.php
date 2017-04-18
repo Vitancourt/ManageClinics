@@ -2,6 +2,7 @@
 <?php
 $css = "../view/";
 require("../view/head.php");
+$index = "../view/";
 require("../view/menus.php");
 //verifica se o botão foi pressionado
 if($_POST['usuario'] == NULL){
@@ -115,6 +116,11 @@ else if($_POST['password'] == NULL){
 	</html>
 
 	";				
+}else{
+	require("../model/Database.php");
+	$DB = new Database();
+	$DB->conexao();
+
 }
 
 
