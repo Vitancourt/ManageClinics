@@ -1,50 +1,80 @@
 <?php
-
-class Usuário
+class Usuario
 {
-    # Variável que guarda a conexão PDO.
-    protected static $db;
-    # Private construct - garante que a classe só possa ser instanciada internamente.
-    private function __construct()
-    {
-        # Informações sobre o banco de dados:
-        $db_host = "localhost";
-        $db_nome = "manageclinic";
-        $db_usuario = "manageclinics";
-        $db_senha = "manageclinics";
-        $db_driver = "mysql";
-        # Informações sobre o sistema:
-        $sistema_titulo = "Manage Clinic";
-        $sistema_email = "";
-        try
-        {
-            # Atribui o objeto PDO à variável $db.
-            self::$db = new PDO("$db_driver:host=$db_host; dbname=$db_nome", $db_usuario, $db_senha);
-            # Garante que o PDO lance exceções durante erros.
-            self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            # Garante que os dados sejam armazenados com codificação UFT-8.
-            self::$db->exec('SET NAMES utf8');
-        }
-        catch (PDOException $e)
-        {
-            # Envia um e-mail para o e-mail oficial do sistema, em caso de erro de conexão.
-            //mail($sistema_email, "PDOException em $sistema_titulo", $e->getMessage());
-            # Então não carrega nada mais da página.
-            die("Connection Error: " . $e->getMessage());
-            
-        }
-    }
-    # Método estático - acessível sem instanciação.
-    public static function conexao()
-    {
-        # Garante uma única instância. Se não existe uma conexão, criamos uma nova.
-        if (!self::$db)
-        {
-            new Database();
-        }
-        # Retorna a conexão.
-        return self::$db;
-    }
+	private $id;
+	private $nome;
+	private $usuario;
+	private $senha;
+	private $ativo;
+
+	function __construct(){
+
+	}
+
+	public function setId($id){
+		$this->id = $id;
+	}
+
+	public function getId(){
+		return $this->id;
+	}
+
+	public function setNome($nome){
+		$this->nome = $nome;
+	}
+
+	public function getNome(){
+		return $this->nome;
+	}
+
+	public function setUsuario($usuario){
+		$this->usuario = md5($usuario);
+	}
+
+	public function getUsuario(){
+		return $this->usuario;
+	}
+
+	public function setSenha($senha){
+		$this->senha = md5($senha);
+	}
+
+	public function getSenha(){
+		return $this->senha;
+	}
+
+	public function setAtivo($ativo){
+		$this->ativo = $ativo;
+	}
+
+	public function getAtivo(){
+		return $this->ativo;
+	}
+
+	//Verifica usuário, senha e se o usuário é ativo no banco de dados, (usuário e senha md5 crypt);
+	public function logar($v1, $v2){
+		if(($v1 != NULL) && ($v2 != NULL)){
+				require("../model/Database.php");
+				$DB = Database::conectar();
+				$sql = "select usuario, senha, ativo from tbUsuario where usuario = :usuario and senha = :senha and ativo = \"1\"";
+				$consulta = $DB->prepare($sql);
+				
+				$consulta->bindParam(':usuario', $v1, PDO::PARAM_STR);
+				$consulta->bindParam(':senha', $v2, PDO::PARAM_STR);
+				try{
+					$consulta->execute();
+					//echo $consulta->rowCount();
+					if($consulta->rowCount() == 1){
+						return true;
+					}
+				}catch(PDOException $e){
+					echo ($e->getMessage()); 
+					return false;           	
+				}
+		}
+		return false;
+	}
+
 }
 
 ?>

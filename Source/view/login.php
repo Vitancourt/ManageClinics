@@ -1,6 +1,6 @@
 <?php
 	if(isset($_POST['buttonlogar'])){
-	include("../controller/logar.php");
+		require("../controller/logar.php");
 	}else{
 		echo "
 	      <!-- LOGIN -->

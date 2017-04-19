@@ -36,21 +36,25 @@ class Database
             # Envia um e-mail para o e-mail oficial do sistema, em caso de erro de conexão.
             //mail($sistema_email, "PDOException em $sistema_titulo", $e->getMessage());
             # Então não carrega nada mais da página.
+            echo ($e->getMessage());
             die("Connection Error: " . $e->getMessage());
             
         }
     }
     # Método estático - acessível sem instanciação.
-    public static function conexao()
+    public static function conectar()
     {
         # Garante uma única instância. Se não existe uma conexão, criamos uma nova.
         if (!self::$db)
         {
+            //echo"conectado";
             new Database();
+            
         }
         # Retorna a conexão.
         return self::$db;
     }
 }
 
+  //Database::conectar();
 ?>
