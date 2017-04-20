@@ -9,7 +9,7 @@
     <meta name="description" content="Sistema de gerenciamento de clínicas">
     <meta name="author" content="MM">
 
-    <title>Manage Clinics - Login</title>
+    <title><?php echo $title; ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo $css; ?>css/bootstrap.min.css" rel="stylesheet">

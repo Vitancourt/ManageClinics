@@ -1,6 +1,7 @@
 <?php
 $css = "";
+$title = "Manage Clinics - Login";
 require_once("head.php");
 include("menuoff.php");
-include("login.php");
+include("formlogin.php");
 ?>
