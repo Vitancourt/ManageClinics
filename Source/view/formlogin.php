@@ -4,21 +4,16 @@
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Por favor, insira seu usuário e senha:</h3>
-                    <?php echo $erro; ?>
                 </div>
                 <div class="panel-body">
                     <form role="form" action="../controller/logar.php" method="post">
+                        <?php echo $erro; ?>
                         <fieldset>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Usuário" name="usuario" type="text" autofocus>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Senha" name="password" type="password" value="">
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">Lembrar - me
-                                </label>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
                             <input name="buttonlogar" type="submit" value="Entrar" class="btn btn-lg btn-success btn-block">                                

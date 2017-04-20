@@ -1,19 +1,19 @@
 <?php
 if(isset($_POST['buttonlogar'])){
-    $css = "../view/";
-    require("../view/head.php");
-    $index = "../view/";
-    require("../view/menuoff.php");
-
     //verifica se o botão foi pressionado
     if(($_POST['usuario'] == NULL) || ($_POST['password'] == NULL)){
-            $erro = "<h3>O campo usuário e senha são obrigatórios!</h3>";
+            $css = "../view/";
+            $title = "Manage Clinics - Login";
+            require("../view/head.php");
+            $index = "../view/";
+            require("../view/menuoff.php");
+            $erro = "<h5 style=\"color: red; font-weight: bold;\">*O campo usuário e senha são obrigatórios!*</h3>";
             require("../view/formlogin.php");
-    }   
-}
+    }else{
 
-/*else if($_POST['password'] == NULL){
-	
+    }  
+}
+/*
 }else{ //Se ambos campos não estão vazios, realiza interação com Usuario e Database.
     require("../model/Usuario.php");
     $usuario = $_POST['usuario'];
