@@ -116,7 +116,7 @@ else if($_POST['password'] == NULL){
 	</html>
 
 	";				
-}else{
+}else{ //Se ambos campos não estão vazios, realiza interação com Usuario e Database.
     require("../model/Usuario.php");
     $usuario = $_POST['usuario'];
     $senha = $_POST['password'];
@@ -124,8 +124,12 @@ else if($_POST['password'] == NULL){
     $user->setUsuario($usuario);
     $user->setSenha($senha);
     $login = $user->logar($user->getUsuario(), $user->getSenha());
-    if($login){
-        header("Location: ../view/homepage.html");
+    /*if($login){
+        //Início de sessão com o nome de usuário
+        session_start();
+        $_SESSION['usuario'] = $user->getUsuario();
+        echo $_SESSION['usuario'];
+        //header("Location: ../view/homepage.php")*/
     }else{
     echo "
       <!-- LOGIN -->
