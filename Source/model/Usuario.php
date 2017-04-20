@@ -5,6 +5,7 @@ class Usuario
 	private $nome;
 	private $usuario;
 	private $senha;
+	private $cargo;
 	private $ativo;
 
 	function __construct(){
@@ -43,6 +44,14 @@ class Usuario
 		return $this->senha;
 	}
 
+	public function setCargo($cargo){
+		$this->cargo = $cargo;
+	}
+
+	public function getCargo(){
+		return $this->cargo;
+	}
+
 	public function setAtivo($ativo){
 		$this->ativo = $ativo;
 	}
@@ -51,16 +60,25 @@ class Usuario
 		return $this->ativo;
 	}
 
+	//Teste entrada, usuário e senha
+	public function validaUsuarioSenha($u, $s){
+		if(($u == NULL) || ($s == NULL)){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 	//Verifica usuário, senha e se o usuário é ativo no banco de dados, (usuário e senha md5 crypt);
-	public function logar($v1, $v2){
-		if(($v1 != NULL) && ($v2 != NULL)){
+	public function logar($usuario, $senha){
+		if(($usuario != NULL) && ($senha != NULL)){
 				require("../model/Database.php");
 				$DB = Database::conectar();
 				$sql = "select usuario, senha, ativo from tbUsuario where usuario = :usuario and senha = :senha and ativo = \"1\"";
 				$consulta = $DB->prepare($sql);
 				
-				$consulta->bindParam(':usuario', $v1, PDO::PARAM_STR);
-				$consulta->bindParam(':senha', $v2, PDO::PARAM_STR);
+				$consulta->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+				$consulta->bindParam(':senha', $senha, PDO::PARAM_STR);
 				try{
 					$consulta->execute();
 					//echo $consulta->rowCount();
@@ -73,6 +91,25 @@ class Usuario
 				}
 		}
 		return false;
+	}
+
+	//Seta sessão para o usuário
+	public function iniciaSession($retornoLogar){
+		if($retornoLogar){
+			if (!session_id()){
+            	session_start();
+			}
+
+        	$_SESSION['usuario'] = md5($this->usuario);
+        	if(!cargo){
+        		$_SESSION['cargo'] = md5("1");
+        	}else{
+        		$_SESSION['cargo'] = md5($this->cargo);
+        	}
+        	return true;
+		}else{
+			return false;
+		}
 	}
 
 }
