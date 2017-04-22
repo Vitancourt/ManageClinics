@@ -7,7 +7,10 @@
                 </div>
                 <div class="panel-body">
                     <form role="form" action="../controller/logar.php" method="post">
-                        <?php echo $erro; ?>
+                        <?php
+                        if($erro != NULL) {
+                          echo $erro;
+                        }?>
                         <fieldset>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Usuário" name="usuario" type="text" autofocus>
@@ -16,7 +19,7 @@
                                 <input class="form-control" placeholder="Senha" name="password" type="password" value="">
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <input name="buttonlogar" type="submit" value="Entrar" class="btn btn-lg btn-success btn-block">                                
+                            <input name="buttonlogar" type="submit" value="Entrar" class="btn btn-lg btn-success btn-block">
                         </fieldset>
                     </form>
                 </div>
@@ -25,7 +28,7 @@
     </div>
 
 <!-- LOGIN -->
-            
+
 
 </div>
 <!-- /#wrapper -->

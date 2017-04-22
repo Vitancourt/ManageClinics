@@ -76,7 +76,7 @@ class Usuario
 				$DB = Database::conectar();
 				$sql = "select usuario, senha, ativo from tbUsuario where usuario = :usuario and senha = :senha and ativo = \"1\"";
 				$consulta = $DB->prepare($sql);
-				
+
 				$consulta->bindParam(':usuario', $usuario, PDO::PARAM_STR);
 				$consulta->bindParam(':senha', $senha, PDO::PARAM_STR);
 				try{
@@ -86,8 +86,8 @@ class Usuario
 						return true;
 					}
 				}catch(PDOException $e){
-					echo ($e->getMessage()); 
-					return false;           	
+					echo ($e->getMessage());
+					return false;
 				}
 		}
 		return false;
@@ -97,9 +97,8 @@ class Usuario
 	public function iniciaSession($retornoLogar){
 		if($retornoLogar){
 			if (!session_id()){
-            	session_start();
+      	session_start();
 			}
-
         	$_SESSION['usuario'] = md5($this->usuario);
         	if(!cargo){
         		$_SESSION['cargo'] = md5("1");
@@ -109,6 +108,24 @@ class Usuario
         	return true;
 		}else{
 			return false;
+		}
+	}
+
+	//Valida sessão
+	public function validaSession(){
+		if(!session_id()){
+			session_start();
+			if(empty($_SESSION['usuario'])){
+				return false;
+			}else{
+				return true;
+			}
+		}else{
+			if(empty($_SESSION['usuario'])){
+				return false;
+			}else{
+				return true;
+			}
 		}
 	}
 
