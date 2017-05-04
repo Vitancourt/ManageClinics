@@ -37,8 +37,11 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbPaciente` (
   `CPF` VARCHAR(13) NULL,
   `dataNasc` DATE NULL,
   `inicioTrat` DATE NULL,
-  `tbUsuario_id` INT UNSIGNED NOT NULL,
+  `telCelular` VARCHAR(45) NULL,
+  `telResidencial` VARCHAR(45) NULL,
+  `telComercial` VARCHAR(45) NULL,
   `ativo` VARCHAR(45) NOT NULL,
+  `tbUsuario_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tbPaciente_tbUsuario1_idx` (`tbUsuario_id` ASC),
   CONSTRAINT `fk_tbPaciente_tbUsuario1`
@@ -89,23 +92,6 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbContas` (
   `baixa` INT NOT NULL,
   `tipo` INT NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `manageclinic`.`tdContato`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `manageclinic`.`tdContato` (
-  `id` INT NOT NULL,
-  `tbPaciente_id` INT UNSIGNED NOT NULL,
-  `telefone` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_tdContato_tbPaciente1_idx` (`tbPaciente_id` ASC),
-  CONSTRAINT `fk_tdContato_tbPaciente1`
-    FOREIGN KEY (`tbPaciente_id`)
-    REFERENCES `manageclinic`.`tbPaciente` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
