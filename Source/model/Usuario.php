@@ -74,7 +74,7 @@ class Usuario
 		if(($usuario != NULL) && ($senha != NULL)){
 				require("../model/Database.php");
 				$DB = Database::conectar();
-				$sql = "select usuario, senha, ativo from tbUsuario where usuario = :usuario and senha = :senha and ativo = \"1\"";
+				$sql = "select id, usuario, senha, ativo from tbUsuario where usuario = :usuario and senha = :senha and ativo = \"1\"";
 				$consulta = $DB->prepare($sql);
 
 				$consulta->bindParam(':usuario', $usuario, PDO::PARAM_STR);
@@ -83,6 +83,12 @@ class Usuario
 					$consulta->execute();
 					//echo $consulta->rowCount();
 					if($consulta->rowCount() == 1){
+						if(!session_id()){
+							session_start();
+						}
+						foreach($consulta as $linha){
+							$_SESSION['id'] = $linha['id'];
+						}
 						return true;
 					}
 				}catch(PDOException $e){
@@ -115,17 +121,45 @@ class Usuario
 	public function validaSession(){
 		if(!session_id()){
 			session_start();
-			if(empty($_SESSION['usuario'])){
-				return false;
-			}else{
-				return true;
-			}
+		}
+		if(empty($_SESSION['usuario']) || empty($_SESSION['id'])){
+			return false;
 		}else{
-			if(empty($_SESSION['usuario'])){
-				return false;
-			}else{
+			return true;
+		}
+	}
+
+	//Consulta o nome do usuario a partir do id da sessão
+	public function buscaNomeUsuario($idUsuario){
+		require("../model/Database.php");
+		$DB = Database::conectar();
+		$sql = "select nome from tbUsuario where id = :id and ativo = \"1\"";
+		$consulta = $DB->prepare($sql);
+		$consulta->bindParam(':id', $idUsuario, PDO::PARAM_STR);		
+		try{
+			$consulta->execute();
+			//echo $consulta->rowCount();
+			if($consulta->rowCount() == 1){
+				if(!session_id()){
+					session_start();
+				}
+				foreach($consulta as $linha){
+					$_SESSION['nomeUsuario'] = $linha['nome'];
+				}
 				return true;
 			}
+		}catch(PDOException $e){
+			echo ($e->getMessage());
+			return false;
+		}
+	}
+
+	public function verificaSessionNomeUsuario($idUsuario){
+		if(!session_id()){
+			session_start();
+		}
+		if(empty($_SESSION['nome'])){
+			$this->buscaNomeUsuario($idUsuario);
 		}
 	}
 

@@ -16,8 +16,10 @@ class Database
         # Informações sobre o banco de dados:
         $db_host = "localhost";
         $db_nome = "manageclinic";
-        $db_usuario = "manageclinics";
-        $db_senha = "manageclinics";
+        //$db_usuario = "manageclinics";
+        //$db_senha = "manageclinics";
+        $db_usuario = "root";
+        $db_senha= "";
         $db_driver = "mysql";
         # Informações sobre o sistema:
         $sistema_titulo = "Manage Clinic";
