@@ -1,0 +1,126 @@
+<?php
+require_once("../model/Pessoa.php");
+class Paciente extends Pessoa
+{
+  private $cpf;
+  private $dataNasc;
+  private $inicioTrat;
+  private $telCelular;
+  private $telResidencial;
+  private $telComercial;
+  private $ativo;
+
+  function setCPF($cpf){
+    $this->cpf = $cpf;
+  }
+
+  function getCPF(){
+    return $cpf;
+  }
+
+  function setDataNasc($dataNasc){
+    $this->dataNasc = $dataNasc;
+  }
+
+  function getDataNasc(){
+    return $this->dataNasc;
+  }
+
+  function setInicioTrat($inicioTrat){
+    $this->inicioTrat = $inicioTrat;
+  }
+
+  function getInicioTrat(){
+    return $this->inicioTrat;
+  }
+
+  function setTelCelular($telCelular){
+    $this->telCelular = $telCelular;
+  }
+
+  function getTelCelular(){
+    return $this->telCelular;
+  }
+
+  function setTelResidencial($telResidencial){
+    $this->telResidencial = $telResidencial;
+  }
+
+  function getTelResidencial(){
+    return $this->telResidencial;
+  }
+
+  function setTelComercial($telComercial){
+    $this->telComercial = $telComercial;
+  }
+
+  function getTelComercial(){
+    return $this->telComercial;
+  }
+
+  function setAtivo($ativo){
+    $this->ativo = $ativo;
+  }
+
+  function getAtivo(){
+    return $this->ativo;
+  }
+
+  function validaCampos($nome){
+    if(empty($nome)){
+      return false;
+    }else{
+      $this->setAtivo("1");
+      return true;
+    }
+  }
+
+  public function verificaData($data){
+    if((strlen($data)) == 10){
+      $dat = explode("/","$data"); # fatia a string $dat em pedados, usando / como referência
+      $d = $dat[0];
+      $m = $dat[1];
+      $y = $dat[2];
+      $res = checkdate($m,$d,$y);
+      if ($res == 1){
+        $this->data = $dat[2].'-'.$dat[1].'-'.$dat[0];
+        return true;
+      } else {
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  public function converterData($data){
+    $dat = explode("-","$data"); # fatia a string $dat em pedados, usando - como referência
+    $this->data = $dat[2].'/'.$dat[1].'/'.$dat[0];
+  }
+
+  public function inserePaciente(){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "insert into tbPaciente (id, nome, cpf, dataNasc, inicioTrat, telCelular, telResidencial, telComercial, ativo) values (NULL, :nome, :cpf, :dataNasc, :inicioTrat, :telCelular, :telResidencial, :telComercial, '1')";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':nome', $this->nome, PDO::PARAM_STR);
+    $consulta->bindParam(':cpf', $this->cpf, PDO::PARAM_STR);
+    $consulta->bindParam(':dataNasc', $this->dataNasc, PDO::PARAM_STR);
+    $consulta->bindParam(':inicioTrat', $this->inicioTrat, PDO::PARAM_STR);
+    $consulta->bindParam(':telCelular', $this->telCelular, PDO::PARAM_STR);
+    $consulta->bindParam(':telResidencial', $this->telResidencial, PDO::PARAM_STR);
+    $consulta->bindParam(':telComercial', $this->telComercial, PDO::PARAM_STR);
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        return true;
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+}
+
+?>
