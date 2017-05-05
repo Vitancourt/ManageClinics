@@ -1,3 +1,13 @@
+<?php
+  require_once("../model/Usuario.php");
+  if(!$user){
+      $user = new Usuario();
+  }
+  $testeSessao = $user->validaSession();
+  if(!$testeSessao){
+    header("Location: ../../index.php");
+  }
+?>
         <!-- Begin-Página -->
         <div id="page-wrapper">
 

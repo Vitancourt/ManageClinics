@@ -35,7 +35,7 @@
                          </li>
                          <li class="divider"></li>
                          <li>
-                             <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                             <a href="../controller/logoff.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                          </li>
                      </ul>
                  </li>
@@ -77,7 +77,7 @@
                                 <a href="#">Gerar relatório</a>
                             </li>
                         </ul>
-                    </li>  
+                    </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#contas"><span class="glyphicon glyphicon-export" aria-hidden="true"></span><i class="fa fa-fw"></i> Contas a pagar <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="contas" class="collapse">
@@ -91,7 +91,7 @@
                                 <a href="#">Gerar relatório</a>
                             </li>
                         </ul>
-                    </li>  
+                    </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#administrativa"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><i class="fa fa-fw"></i> Área administrativa <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="administrativa" class="collapse">
@@ -105,9 +105,9 @@
                                 <a href="#">Procurar usuário</a>
                             </li>
                         </ul>
-                    </li> 
-                
+                    </li>
+
                  </ul>
              </div>
              <!-- End-MenuLateralResponsivo -->
-         </nav>  
+         </nav>

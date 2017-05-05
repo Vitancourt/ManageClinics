@@ -7,6 +7,7 @@
 		$testeSessao = $user->validaSession();
 		if($testeSessao){
 			require("menu.php");
+			$erro = "";
 			require("formAdicionarPaciente.php");
 		}else{
 			header("Location: index.php");
