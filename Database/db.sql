@@ -40,15 +40,8 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbPaciente` (
   `telCelular` VARCHAR(45) NULL,
   `telResidencial` VARCHAR(45) NULL,
   `telComercial` VARCHAR(45) NULL,
-  `ativo` VARCHAR(45) NOT NULL,
-  `tbUsuario_id` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_tbPaciente_tbUsuario1_idx` (`tbUsuario_id` ASC),
-  CONSTRAINT `fk_tbPaciente_tbUsuario1`
-    FOREIGN KEY (`tbUsuario_id`)
-    REFERENCES `manageclinic`.`tbUsuario` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  `ativo` INT NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
