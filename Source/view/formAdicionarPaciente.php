@@ -65,11 +65,11 @@ function mtel(v){
                           <?php echo $erro; ?>
                             <div class="form-group">
                                     <label>Nome de paciente</label>
-                                    <input class="form-control" type="text" name="nome" required>
+                                    <input class="form-control" type="text" name="nome" maxlength="50" required>
                                     <label>CPF</label>
                                     <input class="form-control" type="text" name="cpf">
                                     <label>Data de nascimento (DD/MM/AAAA)</label>
-                                    <input onkeypress="mascara(this, mdata);" class="form-control" type="datetime" name="datanasc" maxlength="10" placeholder="15/04/1993">
+                                    <input onkeypress="mascara(this, mdata);" class="form-control" maxlength="19" type="datetime" name="datanasc" maxlength="10" placeholder="15/04/1993">
                                     <label>Data de início do tratamento (DD/MM/AAAA)</label>
                                     <input onkeypress="mascara(this, mdata);" class="form-control" type="text" name="datainicio" maxlength="10" placeholder="25/07/2018">
                                     <label>Telefone celular</label>
@@ -79,7 +79,7 @@ function mtel(v){
                                     <label>Telefone comercial</label>
                                     <input onkeypress="mascara(this, mtel);" id="telefone" class="form-control" type="text" name="telefoneCom" maxlength="15" placeholder="(55) 99191-9191">
                         </div>
-                        <button type="submit" name="adPaciente" class="btn btn-primary "> Entrar </button>
+                        <button type="submit" name="adPaciente" class="btn btn-primary "> Cadastrar </button>
                         <button type="reset" class="btn btn-warning"> Limpar </button>
                     </div>
                   </div>
