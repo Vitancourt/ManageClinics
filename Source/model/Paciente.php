@@ -125,7 +125,7 @@ class Paciente extends Pessoa
   public function buscarPacientesAtivos(){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbpaciente where ativo='1'";
+    $sql = "select * from tbpaciente order by nome asc";
     $consulta = $DB->prepare($sql);
     /*
     $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
@@ -142,11 +142,16 @@ class Paciente extends Pessoa
       if($consulta->rowCount() == 1){
         $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
         foreach($linha as $row){
+          if($row['ativo'] == 0){
+            $cor = "bgcolor=\"red\"";
+          }else{
+            $cor = "";
+          }
           echo "
           <form action=\"paciente.php\" method=\"post\">
             <tr>
                 <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
-                <td>".$row['nome']."</td>
+                <td ".$cor.">".$row['nome']."</td>
                 <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
                 <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
                 <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
@@ -166,7 +171,7 @@ class Paciente extends Pessoa
     $nome = "%".$nome."%";
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbpaciente where nome like :nome;";
+    $sql = "select * from tbpaciente where nome like :nome order by nome asc;";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
 
