@@ -103,13 +103,24 @@ class Paciente extends Pessoa
     $DB = Database::conectar();
     $sql = "insert into tbPaciente (id, nome, cpf, dataNasc, inicioTrat, telCelular, telResidencial, telComercial, ativo) values (NULL, :nome, :cpf, :dataNasc, :inicioTrat, :telCelular, :telResidencial, :telComercial, '1')";
     $consulta = $DB->prepare($sql);
-    $consulta->bindParam(':nome', $this->nome, PDO::PARAM_STR);
+    $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
     $consulta->bindParam(':cpf', $this->cpf, PDO::PARAM_STR);
     $consulta->bindParam(':dataNasc', $this->dataNasc, PDO::PARAM_STR);
     $consulta->bindParam(':inicioTrat', $this->inicioTrat, PDO::PARAM_STR);
     $consulta->bindParam(':telCelular', $this->telCelular, PDO::PARAM_STR);
     $consulta->bindParam(':telResidencial', $this->telResidencial, PDO::PARAM_STR);
     $consulta->bindParam(':telComercial', $this->telComercial, PDO::PARAM_STR);
+/*
+    echo self::getNome();
+    echo $this->cpf;
+    echo $this->dataNasc;
+    echo $this->inicioTrat;
+    echo $this->telCelular;
+    echo $this->telResidencial;
+    echo $this->telComercial;
+
+*/
+
     try{
       $consulta->execute();
       //echo $consulta->rowCount();
