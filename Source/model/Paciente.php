@@ -217,8 +217,8 @@ class Paciente extends Pessoa
           <form action=\"visualizarPaciente.php\" method=\"post\">
               <!-- /.row -->
               <div class=\"row\">
-                  <div class=\"col-lg-6\">
-                    <?php echo $erro; ?>
+                  <div class=\"col-lg-8\">
+                      ".$erro."
                       <div class=\"form-group\">
                               <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                               <label>Nome de paciente</label>
@@ -236,7 +236,14 @@ class Paciente extends Pessoa
                               <label>Telefone comercial</label>
                               <input onkeypress=\"mascara(this, mtel);\" id=\"telefone\" class=\"form-control\" type=\"text\" name=\"telefoneCom\" maxlength=\"15\" value=\"".$row['telComercial']."\">
                   </div>
-                  <button type=\"submit\" name=\"editar\" class=\"btn btn-warning\"> Editar </button>
+            ";
+            if($row['ativo'] == 0){
+              echo "
+                  <button type=\"submit\" name=\"reativar\" class=\"btn btn-warning\"> Reativar </button>
+              ";
+            }
+            echo "
+                  <button type=\"submit\" name=\"salvar\" class=\"btn btn-primary\"> Salvar alterações </button>
                   <button type=\"submit\" name=\"excluir\" class=\"btn btn-danger\"> Excluir </button>
               </div>
             </div>
@@ -249,6 +256,42 @@ class Paciente extends Pessoa
       return false;
     }
   }
+
+  public function reativarPaciente($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "update tbpaciente set ativo='1' where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      $erro = "<h3 style=\"color:red;\">*Paciente reativado*</h3>";
+      self::visualizarPaciente($id, $erro);
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function excluirPaciente($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "update tbpaciente set ativo='0' where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      $erro = "<h3 style=\"color:red;\">*Paciente excluído*</h3>";
+      self::visualizarPaciente($id, $erro);
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+
 
 
 }

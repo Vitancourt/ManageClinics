@@ -71,11 +71,6 @@ function mtel(v){
                         </h1>
                     </div>
                 </div>
-                <form action="../controller/adPaciente.php" method="post">
-                    <!-- /.row -->
-                    <div class="row">
-                        <div class="col-lg-6">
-                          <?php echo $erro; ?>
 <?php
 			require_once("../controller/paciente.php");
 ?>
