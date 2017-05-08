@@ -110,17 +110,6 @@ class Paciente extends Pessoa
     $consulta->bindParam(':telCelular', $this->telCelular, PDO::PARAM_STR);
     $consulta->bindParam(':telResidencial', $this->telResidencial, PDO::PARAM_STR);
     $consulta->bindParam(':telComercial', $this->telComercial, PDO::PARAM_STR);
-/*
-    echo self::getNome();
-    echo $this->cpf;
-    echo $this->dataNasc;
-    echo $this->inicioTrat;
-    echo $this->telCelular;
-    echo $this->telResidencial;
-    echo $this->telComercial;
-
-*/
-
     try{
       $consulta->execute();
       //echo $consulta->rowCount();
@@ -132,6 +121,81 @@ class Paciente extends Pessoa
       return false;
     }
   }
+
+  public function buscarPacientesAtivos(){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbpaciente where ativo='1'";
+    $consulta = $DB->prepare($sql);
+    /*
+    $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
+    $consulta->bindParam(':cpf', $this->cpf, PDO::PARAM_STR);
+    $consulta->bindParam(':dataNasc', $this->dataNasc, PDO::PARAM_STR);
+    $consulta->bindParam(':inicioTrat', $this->inicioTrat, PDO::PARAM_STR);
+    $consulta->bindParam(':telCelular', $this->telCelular, PDO::PARAM_STR);
+    $consulta->bindParam(':telResidencial', $this->telResidencial, PDO::PARAM_STR);
+    $consulta->bindParam(':telComercial', $this->telComercial, PDO::PARAM_STR);
+    */
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          echo "
+          <form action=\"paciente.php\" method=\"post\">
+            <tr>
+                <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                <td>".$row['nome']."</td>
+                <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+            </tr>
+          </form>
+          ";
+        }
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+
+  public function buscarPacientesNome($nome){
+    $nome = "%".$nome."%";
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbpaciente where nome like :nome;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          echo "
+          <form action=\"paciente.php\" method=\"post\">
+            <tr>
+                <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                <td>".$row['nome']."</td>
+                <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+            </tr>
+          </form>
+          ";
+        }
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+
 }
 
 ?>

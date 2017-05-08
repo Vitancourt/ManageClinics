@@ -71,7 +71,7 @@
                                 <a href="adicionarPaciente.php">Adicionar paciente</a>
                             </li>
                             <li>
-                                <a href="procurarPaciente.html">Procurar paciente</a>
+                                <a href="listarPaciente.php">Procurar paciente</a>
                             </li>
                             <li>
                                 <a href="#">Gerar relatório</a>
