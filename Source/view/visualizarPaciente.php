@@ -1,3 +1,16 @@
+<?php
+		$css = "";
+		$title = "Manage Clinics - Visualizar paciente";
+		require_once("head.php");
+		require_once("../model/Usuario.php");
+		$user = new Usuario();
+		$testeSessao = $user->validaSession();
+		if($testeSessao){
+			require_once("menu.php");
+			$erro = "";
+?>
+
+
 <script type="text/javascript">
 /* Máscaras Data */
 function mascara(o,f){
@@ -54,7 +67,7 @@ function mtel(v){
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Adicionar paciente
+                            Visualizar paciente
                         </h1>
                     </div>
                 </div>
@@ -63,27 +76,10 @@ function mtel(v){
                     <div class="row">
                         <div class="col-lg-6">
                           <?php echo $erro; ?>
-                            <div class="form-group">
-                                    <label>Nome de paciente</label>
-                                    <input class="form-control" type="text" name="nome" maxlength="50" required>
-                                    <label>CPF</label>
-                                    <input class="form-control" type="text" name="cpf">
-                                    <label>Data de nascimento (DD/MM/AAAA)</label>
-                                    <input onkeypress="mascara(this, mdata);" class="form-control" type="datetime" name="datanasc" maxlength="10" placeholder="15/04/1993">
-                                    <label>Data de início do tratamento (DD/MM/AAAA)</label>
-                                    <input onkeypress="mascara(this, mdata);" class="form-control" type="text" name="datainicio" maxlength="10" placeholder="25/07/2018">
-                                    <label>Telefone celular</label>
-                                    <input onkeypress="mascara(this, mtel);" id="telefone" class="form-control" type="text" name="telefoneCel" maxlength="15" placeholder="(55) 99191-9191">
-                                    <label>Telefone residencial</label>
-                                    <input onkeypress="mascara(this, mtel);" id="telefone" class="form-control" type="text" name="telefoneRes" maxlength="15" placeholder="(55) 99191-9191">
-                                    <label>Telefone comercial</label>
-                                    <input onkeypress="mascara(this, mtel);" id="telefone" class="form-control" type="text" name="telefoneCom" maxlength="15" placeholder="(55) 99191-9191">
-                        </div>
-                        <button type="submit" name="adPaciente" class="btn btn-primary "> Cadastrar </button>
-                        <button type="reset" class="btn btn-warning"> Limpar </button>
-                    </div>
-                  </div>
-          </form>
+<?php
+			require_once("../controller/paciente.php");
+?>
+
 
         </div>
         <!-- /#page-wrapper -->
@@ -102,3 +98,11 @@ function mtel(v){
 </body>
 
 </html>
+
+
+<?php
+		}else{
+			header("Location: index.php");
+		}
+
+?>

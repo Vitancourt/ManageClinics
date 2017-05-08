@@ -94,11 +94,20 @@ class Paciente extends Pessoa
   }
 
   public function converterData($data){
+    $dat = explode("/","$data"); # fatia a string $dat em pedados, usando - como referência
+    $this->data = $dat[2].'-'.$dat[1].'-'.$dat[0];
+    return $this->data;
+  }
+
+  public function reverteData($data){
     $dat = explode("-","$data"); # fatia a string $dat em pedados, usando - como referência
     $this->data = $dat[2].'/'.$dat[1].'/'.$dat[0];
+    return $this->data;
   }
 
   public function inserePaciente(){
+    self::setDataNasc(self::converterData(self::getDataNasc()));
+    self::setInicioTrat(self::converterData(self::getInicioTrat()));
     require_once("../model/Database.php");
     $DB = Database::conectar();
     $sql = "insert into tbPaciente (id, nome, cpf, dataNasc, inicioTrat, telCelular, telResidencial, telComercial, ativo) values (NULL, :nome, :cpf, :dataNasc, :inicioTrat, :telCelular, :telResidencial, :telComercial, '1')";
@@ -125,21 +134,12 @@ class Paciente extends Pessoa
   public function buscarPacientesAtivos(){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbpaciente order by nome asc";
+    $sql = "select * from tbpaciente order by nome asc;";
     $consulta = $DB->prepare($sql);
-    /*
-    $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
-    $consulta->bindParam(':cpf', $this->cpf, PDO::PARAM_STR);
-    $consulta->bindParam(':dataNasc', $this->dataNasc, PDO::PARAM_STR);
-    $consulta->bindParam(':inicioTrat', $this->inicioTrat, PDO::PARAM_STR);
-    $consulta->bindParam(':telCelular', $this->telCelular, PDO::PARAM_STR);
-    $consulta->bindParam(':telResidencial', $this->telResidencial, PDO::PARAM_STR);
-    $consulta->bindParam(':telComercial', $this->telComercial, PDO::PARAM_STR);
-    */
     try{
       $consulta->execute();
       //echo $consulta->rowCount();
-      if($consulta->rowCount() == 1){
+      if($consulta->rowCount() >0){
         $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
         foreach($linha as $row){
           if($row['ativo'] == 0){
@@ -148,7 +148,7 @@ class Paciente extends Pessoa
             $cor = "";
           }
           echo "
-          <form action=\"paciente.php\" method=\"post\">
+          <form action=\"visualizarPaciente.php\" method=\"post\">
             <tr>
                 <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                 <td ".$cor.">".$row['nome']."</td>
@@ -182,7 +182,7 @@ class Paciente extends Pessoa
         $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
         foreach($linha as $row){
           echo "
-          <form action=\"paciente.php\" method=\"post\">
+          <form action=\"visualizarPaciente.php\" method=\"post\">
             <tr>
                 <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                 <td>".$row['nome']."</td>
@@ -191,6 +191,56 @@ class Paciente extends Pessoa
                 <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
             </tr>
           </form>
+          ";
+        }
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function visualizarPaciente($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbpaciente where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          echo "
+          <form action=\"visualizarPaciente.php\" method=\"post\">
+              <!-- /.row -->
+              <div class=\"row\">
+                  <div class=\"col-lg-6\">
+                    <?php echo $erro; ?>
+                      <div class=\"form-group\">
+                              <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                              <label>Nome de paciente</label>
+                              <input class=\"form-control\" type=\"text\" name=\"nome\" maxlength=\"50\" required value=\"".$row['nome']."\" >
+                              <label>CPF</label>
+                              <input class=\"form-control\" type=\"text\" name=\"cpf\" value=\"".$row['CPF']."\" >
+                              <label>Data de nascimento (DD/MM/AAAA)</label>
+                              <input onkeypress=\"mascara(this, mdata);\" class=\"form-control\" maxlength=\"19\" type=\"datetime\" name=\"datanasc\" maxlength=\"10\" value=\"".self::reverteData($row['dataNasc'])."\"  >
+                              <label>Data de início do tratamento (DD/MM/AAAA)</label>
+                              <input onkeypress=\"mascara(this, mdata);\" class=\"form-control\" type=\"text\" name=\"datainicio\" maxlength=\"10\" value=\"".self::reverteData($row['inicioTrat'])."\">
+                              <label>Telefone celular</label>
+                              <input onkeypress=\"mascara(this, mtel);\" id=\"telefone\" class=\"form-control\" type=\"text\" name=\"telefoneCel\" maxlength=\"15\" value=\"".$row['telCelular']."\">
+                              <label>Telefone residencial</label>
+                              <input onkeypress=\"mascara(this, mtel);\" id=\"telefone\" class=\"form-control\" type=\"text\" name=\"telefoneRes\" maxlength=\"15\" value=\"".$row['telResidencial']."\">
+                              <label>Telefone comercial</label>
+                              <input onkeypress=\"mascara(this, mtel);\" id=\"telefone\" class=\"form-control\" type=\"text\" name=\"telefoneCom\" maxlength=\"15\" value=\"".$row['telComercial']."\">
+                  </div>
+                  <button type=\"submit\" name=\"editar\" class=\"btn btn-warning\"> Editar </button>
+                  <button type=\"submit\" name=\"excluir\" class=\"btn btn-danger\"> Excluir </button>
+              </div>
+            </div>
+    </form>
           ";
         }
       }
