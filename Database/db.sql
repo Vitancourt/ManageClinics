@@ -79,8 +79,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `manageclinic`.`tbContas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(150) NOT NULL,
-  `data` DATE NOT NULL,
-  `valor` DECIMAL NOT NULL,
+  `data` DATE NULL,
+  `valor` DECIMAL  NULL,
   `dataefetiva` DATE NULL,
   `baixa` INT NOT NULL,
   `tipo` INT NOT NULL,
