@@ -66,19 +66,19 @@
                             <li>
                                 <a href="listarPaciente.php">Procurar paciente</a>
                             </li>
-                            <li>
-                                <a href="#">Gerar relatório</a>
-                            </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#contas"><span class="glyphicon glyphicon-export" aria-hidden="true"></span><i class="fa fa-fw"></i> Contas a pagar <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#contas"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span><i class="fa fa-fw"></i> Caixa <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="contas" class="collapse">
                             <li>
                                 <a href="#">Adicionar conta</a>
                             </li>
                             <li>
                                 <a href="#">Procurar conta</a>
+                            </li>
+                            <li>
+                                <a href="#">Fluxo de caixa</a>
                             </li>
                             <li>
                                 <a href="#">Gerar relatório</a>
@@ -88,9 +88,6 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#administrativa"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><i class="fa fa-fw"></i> Área administrativa <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="administrativa" class="collapse">
-                            <li>
-                                <a href="#">Fluxo de caixa</a>
-                            </li>
                             <li>
                                 <a href="#">Adicionar usuário</a>
                             </li>

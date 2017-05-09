@@ -15,7 +15,7 @@ class Paciente extends Pessoa
   }
 
   function getCPF(){
-    return $cpf;
+    return $this->cpf;
   }
 
   function setDataNasc($dataNasc){
@@ -285,6 +285,33 @@ class Paciente extends Pessoa
       $consulta->execute();
       $erro = "<h3 style=\"color:red;\">*Paciente excluído*</h3>";
       self::visualizarPaciente($id, $erro);
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function editarPaciente($id, $nome, $cpf, $dataNasc, $dataInicio, $telCel, $telRes, $telCom, $erro){
+    $dataNasc = self::converterData($dataNasc);
+    $dataInicio = self::converterData($dataInicio);
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "update tbpaciente set nome = :nome, CPF = :cpf, dataNasc = :dataNasc, inicioTrat = :dataInicio, telCelular = :telCel, telResidencial = :telResidencial, telComercial = :telComercial  where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+    $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
+    $consulta->bindParam(':cpf', $cpf, PDO::PARAM_STR);
+    $consulta->bindParam(':dataNasc', $dataNasc, PDO::PARAM_STR);
+    $consulta->bindParam(':dataInicio', $dataInicio, PDO::PARAM_STR);
+    $consulta->bindParam(':telCel', $telCel, PDO::PARAM_STR);
+    $consulta->bindParam(':telResidencial', $telRes, PDO::PARAM_STR);
+    $consulta->bindParam(':telComercial', $telCom, PDO::PARAM_STR);
+    try{
+      $consulta->execute();
+      if($consulta->rowCount() == 1){
+        $erro = "<h3 style=\"color:red;\">*Alterações salvas*</h3>";
+        self::visualizarPaciente($id, $erro);
+      }
     }catch(PDOException $e){
       echo ($e->getMessage());
       return false;
