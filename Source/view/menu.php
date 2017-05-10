@@ -72,7 +72,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#contas"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span><i class="fa fa-fw"></i> Caixa <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="contas" class="collapse">
                             <li>
-                                <a href="adicionarConta.php">Adicionar conta</a>
+                                <a href="<?php echo $css; ?>adicionarConta.php">Adicionar conta</a>
                             </li>
                             <li>
                                 <a href="#">Procurar conta</a>

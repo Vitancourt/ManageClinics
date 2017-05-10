@@ -82,25 +82,29 @@ class Conta{
 
   public function converterData($data){
     $dat = explode("/","$data"); # fatia a string $dat em pedados, usando - como referência
-    $this->data = $dat[2].'-'.$dat[1].'-'.$dat[0];
-    return $this->data;
+    $data = $dat[2].'-'.$dat[1].'-'.$dat[0];
+    return $data;
   }
 
   public function reverteData($data){
     $dat = explode("-","$data"); # fatia a string $dat em pedados, usando - como referência
-    $this->data = $dat[2].'/'.$dat[1].'/'.$dat[0];
-    return $this->data;
+    $data = $dat[2].'/'.$dat[1].'/'.$dat[0];
+    return $data;
   }
 
-  public function inserePaciente(){
-    self::setDataNasc(self::converterData(self::getDataNasc()));
-    self::setInicioTrat(self::converterData(self::getInicioTrat()));
+  public function insereConta(){
+    if(!empty(self::getDataCriacao())){
+      self::setDataCriacao(self::converterData(self::getDataCriacao()));
+    }
+    if(!empty(self::getDataPagamento())){
+      self::setDataPagamento(self::converterData(self::getDataPagamento()));
+    }
     require_once("../model/Database.php");
     $DB = Database::conectar();
     $sql = "insert into tbcontas (id, descricao, data, valor, dataefetiva, baixa, tipo) values (NULL, :descricao, :data, :valor, :dataefetiva, :baixa, :tipo)";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':descricao', self::getDesc(), PDO::PARAM_STR);
-    $consulta->bindParam(':data', self::getDataNasc(), PDO::PARAM_STR);
+    $consulta->bindParam(':data', self::getDataCriacao(), PDO::PARAM_STR);
     $consulta->bindParam(':valor', self::getValor(), PDO::PARAM_STR);
     $consulta->bindParam(':dataefetiva', self::getDataPagamento(), PDO::PARAM_STR);
     $consulta->bindParam(':baixa', self::getPago(), PDO::PARAM_STR);

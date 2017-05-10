@@ -49,11 +49,11 @@ function mtel(v){
 function moeda(z){
 v = z.value;
 v=v.replace(/\D/g,"") // permite digitar apenas numero
-v=v.replace(/(\d{1})(\d{17})$/,"$1.$2") // coloca ponto antes dos ultimos digitos
-v=v.replace(/(\d{1})(\d{13})$/,"$1.$2") // coloca ponto antes dos ultimos 13 digitos
-v=v.replace(/(\d{1})(\d{10})$/,"$1.$2") // coloca ponto antes dos ultimos 10 digitos
-v=v.replace(/(\d{1})(\d{7})$/,"$1.$2") // coloca ponto antes dos ultimos 7 digitos
-v=v.replace(/(\d{1})(\d{1,4})$/,"$1,$2") // coloca virgula antes dos ultimos 4 digitos
+//v=v.replace(/(\d{1})(\d{17})$/,"$1.$2") // coloca ponto antes dos ultimos digitos
+//v=v.replace(/(\d{1})(\d{13})$/,"$1.$2") // coloca ponto antes dos ultimos 13 digitos
+//v=v.replace(/(\d{1})(\d{10})$/,"$1.$2") // coloca ponto antes dos ultimos 10 digitos
+//v=v.replace(/(\d{1})(\d{7})$/,"$1.$2") // coloca ponto antes dos ultimos 7 digitos
+v=v.replace(/(\d{1})(\d{0,1})$/,"$1,$2") // coloca virgula antes dos ultimos 4 digitos
 z.value = v;
 }
 </script>
@@ -87,14 +87,14 @@ z.value = v;
                                     <input onkeypress="moeda(this);" class="form-control" type="text" name="valor" maxlength="50" placeholder="80,00">
                                     <label>Tipo</label>
                                     <div class="radio">
-                                      <label><input type="radio" name="tipo" value="1" />A pagar</label>
+                                      <label><input type="radio" name="tipo" value="1" checked="true"/>A pagar</label>
                                     </div>
                                     <div class="radio">
                                       <label><input type="radio" name="tipo" value="0"/>A receber</label>
                                     </div>
                                     <label>Pago</label>
                                     <div class="radio">
-                                      <label><input type="radio" name="pago" value="1" />Sim</label>
+                                      <label><input type="radio" name="pago" value="1" checked="true"/>Sim</label>
                                     </div>
                                     <div class="radio">
                                       <label><input type="radio" name="pago" value="0"/>Não</label>

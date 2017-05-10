@@ -12,15 +12,23 @@
       $cont->setTipo($_POST['tipo']);
       $cont->setPago($_POST['pago']);
       if(isset($_POST['adConta'])){
+				$title = ("Manage Clinics - Adicionar Conta");
+				$css = ("../view/");
+				require("../view/head.php");
+				require("../view/menu.php");
 				$verif = $cont->verificaData($cont->getDataCriacao());
 				$verif2 = $cont->verificaData($cont->getDataPagamento());
 				$dt = $cont->getDataPagamento();
 				if(($verif && $verif2) || ($verif && (empty($dt)))){
-					$cont->setDataCriacao($cont->converterData($cont->getDataCriacao()));
-					$cont->setDataPagamento($cont->converterData($cont->getDataPagamento()));
-					echo $cont->getDataCriacao();
-					echo $cont->getDataPagamento();
-					echo "olá";
+					$testInsert = $cont->insereConta();
+					if($testInsert){
+							$erro = "<h3 style=\"color:red;\">*Conta inserida*</h3>";
+							require("../view/formAdicionarConta.php");
+					}else{
+						$erro = "<h3 style=\"color:red;\">*Erro ao inserir conta*</h3>";
+						require("../view/formAdicionarConta.php");
+					}
+
 				}else{
 					echo "não";
 				}
