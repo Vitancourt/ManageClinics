@@ -71,7 +71,7 @@ z.value = v;
                         </h1>
                     </div>
                 </div>
-                <form action="../controller/adPaciente.php" method="post">
+                <form action="../controller/conta.php" method="post">
                     <!-- /.row -->
                     <div class="row">
                         <div class="col-lg-6">
@@ -84,7 +84,7 @@ z.value = v;
                                     <label>Data de pagamento (DD/MM/AAAA)</label>
                                     <input onkeypress="mascara(this, mdata);" class="form-control" type="text" name="datapgto" maxlength="10" placeholder="15/04/1993">
                                     <label>Valor (R$)</label>
-                                    <input onkeypress="moeda(this);" id="telefone" class="form-control" type="text" name="telefoneCel" maxlength="15" placeholder="(55) 99191-9191">
+                                    <input onkeypress="moeda(this);" class="form-control" type="text" name="valor" maxlength="50" placeholder="80,00">
                                     <label>Tipo</label>
                                     <div class="radio">
                                       <label><input type="radio" name="tipo" value="1" />A pagar</label>
@@ -100,7 +100,7 @@ z.value = v;
                                       <label><input type="radio" name="pago" value="0"/>Não</label>
                                     </div>
                         </div>
-                        <button type="submit" name="adPaciente" class="btn btn-primary "> Cadastrar </button>
+                        <button type="submit" name="adConta" class="btn btn-primary "> Cadastrar </button>
                         <button type="reset" class="btn btn-warning"> Limpar </button>
                     </div>
                   </div>
