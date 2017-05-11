@@ -144,17 +144,27 @@ class Conta{
         foreach($linha as $row){
           $date = self::reverteData($row['dataefetiva']);
           if($row['baixa'] == 1){
-            $cor = "bgcolor=\"red\"";
+            $cor = "bgcolor=\"#D14545\"";
           }else{
             $cor = "";
+          }
+          if($row['tipo'] == 1){
+            $tipo = "A pagar";
+          }else{
+            $tipo = "A receber";
+          }
+          if($row['baixa'] == 1){
+            $baixa = "Pago";
+          }else{
+            $baixa = "Não";
           }
           echo "
           <form action=\"../controller/conta.php\" method=\"post\">
             <tr>
                 <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                 <td ".$cor.">".$date."</td>
-                <td ".$cor.">".$row['tipo']."</td>
-                <td ".$cor.">".$row['baixa']."</td>
+                <td ".$cor.">".$tipo."</td>
+                <td ".$cor.">".$baixa."</td>
                 <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
                 <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
                 <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
@@ -174,12 +184,15 @@ class Conta{
     $DB = Database::conectar();
     if(($filtro == "pago")){
       if((!empty($desc)) && (!empty($data))){
+        //echo "data e desc";
         $descricao = "%".$desc."%";
-        $datac = self::converterData($data);
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
         $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
-        $consulta->bindParam(':data', $data, PDO::PARAM_STR);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
         $filt = 1;
         $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
         try{
@@ -190,17 +203,27 @@ class Conta{
             foreach($linha as $row){
               $date = self::reverteData($row['dataefetiva']);
               if($row['baixa'] == 1){
-                $cor = "bgcolor=\"red\"";
+                $cor = "bgcolor=\"#D14545\"";
               }else{
                 $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
               }
               echo "
               <form action=\"../controller/conta.php\" method=\"post\">
                 <tr>
                     <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                     <td ".$cor.">".$date."</td>
-                    <td ".$cor.">".$row['tipo']."</td>
-                    <td ".$cor.">".$row['baixa']."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
                     <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
                     <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
@@ -213,11 +236,13 @@ class Conta{
           echo ($e->getMessage());
           return false;
         }
-      }else if(empty($desc)){
-        $datac = self::converterData($data);
-        $sql = "select * from tbcontas where dataefetiva >= :data and baixa = :filtro order by dataefetiva asc;";
+      }else if((empty($desc)) && (!empty($data))){
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where dataefetiva>=:data and baixa=:filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
-        $consulta->bindParam(':data', $data, PDO::PARAM_STR);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
         $filt = 1;
         $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
         try{
@@ -228,17 +253,27 @@ class Conta{
             foreach($linha as $row){
               $date = self::reverteData($row['dataefetiva']);
               if($row['baixa'] == 1){
-                $cor = "bgcolor=\"red\"";
+                $cor = "bgcolor=\"#D14545\"";
               }else{
                 $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
               }
               echo "
               <form action=\"../controller/conta.php\" method=\"post\">
                 <tr>
                     <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                     <td ".$cor.">".$date."</td>
-                    <td ".$cor.">".$row['tipo']."</td>
-                    <td ".$cor.">".$row['baixa']."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
                     <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
                     <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
@@ -251,7 +286,7 @@ class Conta{
           echo ($e->getMessage());
           return false;
         }
-      }else if(empty($data)){
+      }else if((empty($data)) && (!empty($desc))){
         $descricao = "%".$desc."%";
         $sql = "select * from tbcontas where descricao like :descricao and baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
@@ -266,17 +301,469 @@ class Conta{
             foreach($linha as $row){
               $date = self::reverteData($row['dataefetiva']);
               if($row['baixa'] == 1){
-                $cor = "bgcolor=\"red\"";
+                $cor = "bgcolor=\"#D14545\"";
               }else{
                 $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
               }
               echo "
               <form action=\"../controller/conta.php\" method=\"post\">
                 <tr>
                     <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                     <td ".$cor.">".$date."</td>
-                    <td ".$cor.">".$row['tipo']."</td>
-                    <td ".$cor.">".$row['baixa']."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else{
+        $sql = "select * from tbcontas where baixa = :filtro order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $filt = 1;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }
+    }else if($filtro == "npago"){
+      if((!empty($desc)) && (!empty($data))){
+        //echo "data e desc";
+        $descricao = "%".$desc."%";
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and  baixa = :filtro order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else if((empty($desc)) && (!empty($data))){
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where dataefetiva>=:data and baixa=:filtro order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else if((empty($data)) && (!empty($desc))){
+        $descricao = "%".$desc."%";
+        $sql = "select * from tbcontas where descricao like :descricao and baixa = :filtro order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else{
+        $sql = "select * from tbcontas where baixa = :filtro order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }
+    }else if($filtro =="tipoPagar"){
+      if((!empty($desc)) && (!empty($data))){
+        //echo "data e desc";
+        $descricao = "%".$desc."%";
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and tipo = 1 order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else if((empty($desc)) && (!empty($data))){
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where dataefetiva>=:data and tipo = 1 order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else if((empty($data)) && (!empty($desc))){
+        $descricao = "%".$desc."%";
+        $sql = "select * from tbcontas where descricao like :descricao and tipo = 1  order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else{
+        $sql = "select * from tbcontas where tipo = 1 order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
                     <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
                     <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
@@ -291,9 +778,203 @@ class Conta{
         }
       }
     }else{
-
+      if((!empty($desc)) && (!empty($data))){
+        //echo "data e desc";
+        $descricao = "%".$desc."%";
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and tipo = 0 order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else if((empty($desc)) && (!empty($data))){
+        if(!empty($data)){
+          $datac = self::converterData($data);
+        }
+        $sql = "select * from tbcontas where dataefetiva>=:data and tipo = 0 order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else if((empty($data)) && (!empty($desc))){
+        $descricao = "%".$desc."%";
+        $sql = "select * from tbcontas where descricao like :descricao and tipo = 0  order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }else{
+        $sql = "select * from tbcontas where tipo = 0 order by dataefetiva asc;";
+        $consulta = $DB->prepare($sql);
+        $filt = 0;
+        $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
+        try{
+          $consulta->execute();
+          //echo $consulta->rowCount();
+          if($consulta->rowCount() > 0){
+            $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linha as $row){
+              $date = self::reverteData($row['dataefetiva']);
+              if($row['baixa'] == 1){
+                $cor = "bgcolor=\"#D14545\"";
+              }else{
+                $cor = "";
+              }
+              if($row['tipo'] == 1){
+                $tipo = "A pagar";
+              }else{
+                $tipo = "A receber";
+              }
+              if($row['baixa'] == 1){
+                $baixa = "Pago";
+              }else{
+                $baixa = "Não";
+              }
+              echo "
+              <form action=\"../controller/conta.php\" method=\"post\">
+                <tr>
+                    <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                    <td ".$cor.">".$date."</td>
+                    <td ".$cor.">".$tipo."</td>
+                    <td ".$cor.">".$baixa."</td>
+                    <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+                </tr>
+              </form>
+              ";
+            }
+          }
+        }catch(PDOException $e){
+          echo ($e->getMessage());
+          return false;
+        }
+      }
     }
-
   }
 
 }
