@@ -82,7 +82,7 @@ z.value = v;
                                     <label>Data de criação (DD/MM/AAAA)</label>
                                     <input onkeypress="mascara(this, mdata);" class="form-control" type="datetime" name="data" maxlength="10" value="<?php date_default_timezone_set('America/Sao_Paulo');  echo date("d/m/Y"); ?>"placeholder="15/04/1993" readonly="true">
                                     <label>Data de pagamento (DD/MM/AAAA)</label>
-                                    <input onkeypress="mascara(this, mdata);" class="form-control" type="text" name="datapgto" maxlength="10" placeholder="15/04/1993">
+                                    <input onkeypress="mascara(this, mdata);" class="form-control" type="text" name="datapgto" maxlength="10" placeholder="15/04/1993" required>
                                     <label>Valor (R$)</label>
                                     <input onkeypress="moeda(this);" class="form-control" type="text" name="valor" maxlength="50" placeholder="80,00">
                                     <label>Tipo</label>

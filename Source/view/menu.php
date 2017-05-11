@@ -61,10 +61,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#pacientes"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><i class="fa fa-fw"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="pacientes" class="collapse">
                             <li>
-                                <a href="adicionarPaciente.php">Adicionar paciente</a>
+                                <a href="<?php echo $css; ?>adicionarPaciente.php">Adicionar paciente</a>
                             </li>
                             <li>
-                                <a href="listarPaciente.php">Procurar paciente</a>
+                                <a href="<?php echo $css; ?>listarPaciente.php">Procurar paciente</a>
                             </li>
                         </ul>
                     </li>
@@ -75,7 +75,7 @@
                                 <a href="<?php echo $css; ?>adicionarConta.php">Adicionar conta</a>
                             </li>
                             <li>
-                                <a href="#">Procurar conta</a>
+                                <a href="<?php echo $css; ?>listarConta.php">Procurar conta</a>
                             </li>
                             <li>
                                 <a href="#">Fluxo de caixa</a>
