@@ -30,7 +30,8 @@
 					}
 
 				}else{
-					echo "não";
+					$erro = "<h3 style=\"color:red;\">*Formato de data incorreto*</h3>";
+					require("../view/formAdicionarConta.php");
 				}
       }
 		}else{
