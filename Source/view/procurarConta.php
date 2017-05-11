@@ -54,13 +54,17 @@ function mtel(v){
               <label>Buscar por descrição:</label>
               <input class="form-control" type="text" name="desc" maxlength="50">
               <label>Buscar por data:</label>
-              <input class="form-control" onkeypress="mascara(this, mdata);" type="text" name="data" maxlength="13">
+              <input class="form-control" onkeypress="mascara(this, mdata);" type="text" name="data" maxlength="10">
               </div>
               <div>
-                <label>Filtro:</label>
-                <label><input type="radio" name="filtro" value="pago" checked="true" />Pago</label>
-                <label><input type="radio" name="filtro" value="npago" />A pagar</label>
-                <label><input type="radio" name="filtro" value="receber"  />A receber</label>
+                <label>Filtro sobre a baixa:</label>
+                <label><input type="radio" name="filtro" value="pago" checked= "true" />Pago</label>
+                <label><input type="radio" name="filtro" value="npago" />Não pago</label>
+              </div>
+              <div>
+                <label>Filtro sobre o tipo:</label>
+                <label><input type="radio" name="filtro" value="tipoPagar" />Pagar</label>
+                <label><input type="radio" name="filtro" value="tipoReceber" />Receber</label>
               </div>
               <button type="submit" name="procurar" class="btn btn-primary "> Procurar </button>
             </form>
