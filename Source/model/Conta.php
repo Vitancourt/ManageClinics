@@ -111,7 +111,7 @@ class Conta{
     }
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "insert into tbcontas (id, descricao, data, valor, dataefetiva, baixa, tipo) values (NULL, :descricao, :data, :valor, :dataefetiva, :baixa, :tipo)";
+    $sql = "insert into tbContas (id, descricao, data, valor, dataefetiva, baixa, tipo) values (NULL, :descricao, :data, :valor, :dataefetiva, :baixa, :tipo)";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':descricao', self::getDesc(), PDO::PARAM_STR);
     $consulta->bindParam(':data', self::getDataCriacao(), PDO::PARAM_STR);
@@ -134,7 +134,7 @@ class Conta{
   public function listarConta(){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbcontas order by dataefetiva asc;";
+    $sql = "select * from tbContas order by dataefetiva asc;";
     $consulta = $DB->prepare($sql);
     try{
       $consulta->execute();
@@ -189,7 +189,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and baixa = :filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and dataefetiva >= :data and baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
@@ -240,7 +240,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where dataefetiva>=:data and baixa=:filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where dataefetiva>=:data and baixa=:filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
         $filt = 1;
@@ -288,7 +288,7 @@ class Conta{
         }
       }else if((empty($data)) && (!empty($desc))){
         $descricao = "%".$desc."%";
-        $sql = "select * from tbcontas where descricao like :descricao and baixa = :filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $filt = 1;
@@ -335,7 +335,7 @@ class Conta{
           return false;
         }
       }else{
-        $sql = "select * from tbcontas where baixa = :filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $filt = 1;
         $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
@@ -388,7 +388,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and  baixa = :filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and dataefetiva >= :data and  baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
@@ -439,7 +439,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where dataefetiva>=:data and baixa=:filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where dataefetiva>=:data and baixa=:filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
         $filt = 0;
@@ -487,7 +487,7 @@ class Conta{
         }
       }else if((empty($data)) && (!empty($desc))){
         $descricao = "%".$desc."%";
-        $sql = "select * from tbcontas where descricao like :descricao and baixa = :filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $filt = 0;
@@ -534,7 +534,7 @@ class Conta{
           return false;
         }
       }else{
-        $sql = "select * from tbcontas where baixa = :filtro order by dataefetiva asc;";
+        $sql = "select * from tbContas where baixa = :filtro order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $filt = 0;
         $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
@@ -587,7 +587,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and tipo = 1 order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and dataefetiva >= :data and tipo = 1 order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
@@ -636,7 +636,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where dataefetiva>=:data and tipo = 1 order by dataefetiva asc;";
+        $sql = "select * from tbContas where dataefetiva>=:data and tipo = 1 order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
         $filt = 0;
@@ -684,7 +684,7 @@ class Conta{
         }
       }else if((empty($data)) && (!empty($desc))){
         $descricao = "%".$desc."%";
-        $sql = "select * from tbcontas where descricao like :descricao and tipo = 1  order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and tipo = 1  order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $filt = 0;
@@ -731,7 +731,7 @@ class Conta{
           return false;
         }
       }else{
-        $sql = "select * from tbcontas where tipo = 1 order by dataefetiva asc;";
+        $sql = "select * from tbContas where tipo = 1 order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $filt = 0;
         $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);
@@ -784,7 +784,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where descricao like :descricao and dataefetiva >= :data and tipo = 0 order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and dataefetiva >= :data and tipo = 0 order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
@@ -833,7 +833,7 @@ class Conta{
         if(!empty($data)){
           $datac = self::converterData($data);
         }
-        $sql = "select * from tbcontas where dataefetiva>=:data and tipo = 0 order by dataefetiva asc;";
+        $sql = "select * from tbContas where dataefetiva>=:data and tipo = 0 order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':data', $datac, PDO::PARAM_STR);
         $filt = 0;
@@ -881,7 +881,7 @@ class Conta{
         }
       }else if((empty($data)) && (!empty($desc))){
         $descricao = "%".$desc."%";
-        $sql = "select * from tbcontas where descricao like :descricao and tipo = 0  order by dataefetiva asc;";
+        $sql = "select * from tbContas where descricao like :descricao and tipo = 0  order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
         $filt = 0;
@@ -928,7 +928,7 @@ class Conta{
           return false;
         }
       }else{
-        $sql = "select * from tbcontas where tipo = 0 order by dataefetiva asc;";
+        $sql = "select * from tbContas where tipo = 0 order by dataefetiva asc;";
         $consulta = $DB->prepare($sql);
         $filt = 0;
         $consulta->bindParam(':filtro', $filt, PDO::PARAM_STR);

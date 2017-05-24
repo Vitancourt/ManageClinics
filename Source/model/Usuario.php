@@ -60,6 +60,14 @@ class Usuario
 		return $this->ativo;
 	}
 
+	public function validaInsert($nome, $usuario, $senha, $cargo, $ativo){
+		if((empty($nome)) && (empty($usuario)) && (empty($senha)) && (empty($cargo)) && (empty($ativo))){
+			return false;
+		}else {
+			return true;
+		}
+	}
+
 	//Teste entrada, usuário e senha
 	public function validaUsuarioSenha($u, $s){
 		if(($u == NULL) || ($s == NULL)){
@@ -135,7 +143,7 @@ class Usuario
 		$DB = Database::conectar();
 		$sql = "select nome from tbUsuario where id = :id and ativo = \"1\"";
 		$consulta = $DB->prepare($sql);
-		$consulta->bindParam(':id', $idUsuario, PDO::PARAM_STR);		
+		$consulta->bindParam(':id', $idUsuario, PDO::PARAM_STR);
 		try{
 			$consulta->execute();
 			//echo $consulta->rowCount();
@@ -162,6 +170,27 @@ class Usuario
 			$this->buscaNomeUsuario($idUsuario);
 		}
 	}
+
+	public function insereUsuario(){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+		$sql = "insert into tbPaciente (id, nome, cargo, senha, ativo) values (NULL, :nome, :cargo, :usuario, :senha, :ativo)";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
+    $consulta->bindParam(':cargo', self::getCargo(), PDO::PARAM_STR);
+    $consulta->bindParam(':usuario', self::getUsuario(), PDO::PARAM_STR);
+    $consulta->bindParam(':senha', self::getSenha(), PDO::PARAM_STR);
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        return true;
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
 
 }
 

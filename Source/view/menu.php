@@ -89,7 +89,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#administrativa"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><i class="fa fa-fw"></i> Área administrativa <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="administrativa" class="collapse">
                             <li>
-                                <a href="#">Adicionar usuário</a>
+                                <a href="<?php echo $css; ?>adicionarUsuario.php">Adicionar usuário</a>
                             </li>
                             <li>
                                 <a href="#">Procurar usuário</a>

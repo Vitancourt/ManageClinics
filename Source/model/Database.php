@@ -19,7 +19,7 @@ class Database
         //$db_usuario = "manageclinics";
         //$db_senha = "manageclinics";
         $db_usuario = "root";
-        $db_senha= "";
+        $db_senha= "xd2ih348";
         $db_driver = "mysql";
         # Informações sobre o sistema:
         $sistema_titulo = "Manage Clinic";
@@ -40,7 +40,7 @@ class Database
             # Então não carrega nada mais da página.
             echo ($e->getMessage());
             die("Connection Error: " . $e->getMessage());
-            
+
         }
     }
     # Método estático - acessível sem instanciação.
@@ -51,7 +51,7 @@ class Database
         {
             //echo"conectado";
             new Database();
-            
+
         }
         # Retorna a conexão.
         return self::$db;

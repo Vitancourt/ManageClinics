@@ -8,7 +8,7 @@
 		if($testeSessao){
 			require("menu.php");
 			$erro = "";
-			require("formAdicionarPaciente.php");
+			require("formAdicionarUsuario.php");
 		}else{
 			header("Location: index.php");
 		}
