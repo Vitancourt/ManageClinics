@@ -16,9 +16,9 @@ if(isset($_POST['adUsuario'])){
     $title = "Manage Clinics - Adicionar Paciente";
     require_once("../view/head.php");
     require_once("../view/menu.php");
-    $nome = $_POST['nome'];
-    $usuario = $_POST['usuario'];
-    $senha = $_POST['senha'];
+    $nome = $_POST["nome"];
+    $usuario = $_POST["usuario"];
+    $senha = $_POST["senha"];
 
     $user->setNome($nome);
     $user->setUsuario(md5($usuario));

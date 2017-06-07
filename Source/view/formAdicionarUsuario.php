@@ -22,9 +22,9 @@
                                     <label>Nome de usuario (usado para login) *</label>
                                     <input class="form-control" type="text" name="usuario" maxlength="20">
                                     <label>Senha *</label>
-                                    <input class="form-control" type="text" name="sneha" maxlength="20">
+                                    <input class="form-control" type="text" name="senha" maxlength="20">
                         </div>
-                        <button type="submit" name="adUsuario" class="btn btn-primary "> Cadastrar </button>
+                        <input type="submit" name="adUsuario" class="btn btn-primary " value="Cadastrar">
                         <button type="reset" class="btn btn-warning"> Limpar </button>
                     </div>
                   </div>

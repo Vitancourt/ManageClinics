@@ -111,8 +111,9 @@ class Paciente extends Pessoa
     require_once("../model/Database.php");
     $DB = Database::conectar();
     $sql = "insert into tbPaciente (id, nome, cpf, dataNasc, inicioTrat, telCelular, telResidencial, telComercial, ativo) values (NULL, :nome, :cpf, :dataNasc, :inicioTrat, :telCelular, :telResidencial, :telComercial, '1')";
+    $nomePC = self::getNome();
     $consulta = $DB->prepare($sql);
-    $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
+    $consulta->bindParam(':nome', $nomePC, PDO::PARAM_STR);
     $consulta->bindParam(':cpf', $this->cpf, PDO::PARAM_STR);
     $consulta->bindParam(':dataNasc', $this->dataNasc, PDO::PARAM_STR);
     $consulta->bindParam(':inicioTrat', $this->inicioTrat, PDO::PARAM_STR);
@@ -134,7 +135,7 @@ class Paciente extends Pessoa
   public function buscarPacientesAtivos(){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbpaciente order by nome asc;";
+    $sql = "select * from tbPaciente order by nome asc;";
     $consulta = $DB->prepare($sql);
     try{
       $consulta->execute();
@@ -171,7 +172,7 @@ class Paciente extends Pessoa
     $nome = "%".$nome."%";
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbpaciente where nome like :nome order by nome asc;";
+    $sql = "select * from tbPaciente where nome like :nome order by nome asc;";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
 
@@ -203,7 +204,7 @@ class Paciente extends Pessoa
   public function visualizarPaciente($id, $erro){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "select * from tbpaciente where id= :id;";
+    $sql = "select * from tbPaciente where id= :id;";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':id', $id, PDO::PARAM_STR);
 
@@ -260,7 +261,7 @@ class Paciente extends Pessoa
   public function reativarPaciente($id, $erro){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "update tbpaciente set ativo='1' where id= :id;";
+    $sql = "update tbPaciente set ativo='1' where id= :id;";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':id', $id, PDO::PARAM_STR);
 
@@ -277,7 +278,7 @@ class Paciente extends Pessoa
   public function excluirPaciente($id, $erro){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "update tbpaciente set ativo='0' where id= :id;";
+    $sql = "update tbPaciente set ativo='0' where id= :id;";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':id', $id, PDO::PARAM_STR);
 
@@ -296,7 +297,7 @@ class Paciente extends Pessoa
     $dataInicio = self::converterData($dataInicio);
     require_once("../model/Database.php");
     $DB = Database::conectar();
-    $sql = "update tbpaciente set nome = :nome, CPF = :cpf, dataNasc = :dataNasc, inicioTrat = :dataInicio, telCelular = :telCel, telResidencial = :telResidencial, telComercial = :telComercial  where id= :id;";
+    $sql = "update tbPaciente set nome = :nome, CPF = :cpf, dataNasc = :dataNasc, inicioTrat = :dataInicio, telCelular = :telCel, telResidencial = :telResidencial, telComercial = :telComercial  where id= :id;";
     $consulta = $DB->prepare($sql);
     $consulta->bindParam(':id', $id, PDO::PARAM_STR);
     $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);

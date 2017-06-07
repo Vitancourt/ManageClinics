@@ -125,6 +125,45 @@ class Usuario
 		}
 	}
 
+
+	//método que imprime todos usuáReflectionClass
+	public function listarUsuario(){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbUsuario order by nome asc;";
+    $consulta = $DB->prepare($sql);
+    try{
+      $consulta->execute();
+      // $consulta->rowCount();
+      if($consulta->rowCount() >0){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          if($row['ativo'] == 0){
+            $cor = "bgcolor=\"red;\"";
+          }else{
+            $cor = "";
+          }
+          echo "
+          <form action=\"../controller/conta.php\" method=\"post\">
+            <tr>
+                <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                <td ".$cor.">".$row['nome']."</td>
+                <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
+								<td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
+                <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+            </tr>
+          </form>
+          ";
+        }
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+
+
 	//Valida sessão
 	public function validaSession(){
 		if(!session_id()){
@@ -174,12 +213,14 @@ class Usuario
 	public function insereUsuario(){
     require_once("../model/Database.php");
     $DB = Database::conectar();
-		$sql = "insert into tbPaciente (id, nome, cargo, senha, ativo) values (NULL, :nome, :cargo, :usuario, :senha, :ativo)";
+		$sql = "insert into tbUsuario (id, nome, cargo, usuario, senha, ativo) values (NULL, :nome, :cargo, :usuario, :senha, :ativo)";
     $consulta = $DB->prepare($sql);
-    $consulta->bindParam(':nome', self::getNome(), PDO::PARAM_STR);
-    $consulta->bindParam(':cargo', self::getCargo(), PDO::PARAM_STR);
-    $consulta->bindParam(':usuario', self::getUsuario(), PDO::PARAM_STR);
-    $consulta->bindParam(':senha', self::getSenha(), PDO::PARAM_STR);
+		$ativ = "1";
+    $consulta->bindParam(':nome', $this->nome, PDO::PARAM_STR);
+    $consulta->bindParam(':cargo', $this->cargo, PDO::PARAM_STR);
+    $consulta->bindParam(':usuario', $this->usuario, PDO::PARAM_STR);
+    $consulta->bindParam(':senha', $this->senha, PDO::PARAM_STR);
+		$consulta->bindParam(':ativo', $ativ, PDO::PARAM_STR);
     try{
       $consulta->execute();
       //echo $consulta->rowCount();

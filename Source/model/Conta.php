@@ -113,17 +113,51 @@ class Conta{
     $DB = Database::conectar();
     $sql = "insert into tbContas (id, descricao, data, valor, dataefetiva, baixa, tipo) values (NULL, :descricao, :data, :valor, :dataefetiva, :baixa, :tipo)";
     $consulta = $DB->prepare($sql);
-    $consulta->bindParam(':descricao', self::getDesc(), PDO::PARAM_STR);
-    $consulta->bindParam(':data', self::getDataCriacao(), PDO::PARAM_STR);
-    $consulta->bindParam(':valor', self::getValor(), PDO::PARAM_STR);
-    $consulta->bindParam(':dataefetiva', self::getDataPagamento(), PDO::PARAM_STR);
-    $consulta->bindParam(':baixa', self::getPago(), PDO::PARAM_STR);
-    $consulta->bindParam(':tipo', self::getTipo(), PDO::PARAM_STR);
+    $consulta->bindParam(':descricao', $this->desc, PDO::PARAM_STR);
+    $consulta->bindParam(':data', $this->dataCriacao, PDO::PARAM_STR);
+    $consulta->bindParam(':valor', $this->valor, PDO::PARAM_STR);
+    $consulta->bindParam(':dataefetiva', $this->dataPagamento, PDO::PARAM_STR);
+    $consulta->bindParam(':baixa', $this->pago, PDO::PARAM_STR);
+    $consulta->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
     try{
       $consulta->execute();
       //echo $consulta->rowCount();
       if($consulta->rowCount() == 1){
         return true;
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function pegaDados($id){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbContas where id = :id limit 1";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+    $consulta = $DB->prepare($sql);
+    try{
+      if($consulta->rowCount() >0){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          echo "
+          <form action=\"../controller/conta.php\" method=\"post\">
+              <!-- /.row -->
+              <div class=\"row\">
+                  <div class=\"col-lg-8\">
+                      ".$erro."
+                      <div class=\"form-group\">
+                              <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                              <label>Conta</label>
+                              <input class=\"form-control\" type=\"text\" name=\"nome\" maxlength=\"50\" required value=\"".$row['nome']."\" >
+                  </div>
+            ";
+
+
+
+        }
       }
     }catch(PDOException $e){
       echo ($e->getMessage());
@@ -166,7 +200,6 @@ class Conta{
                 <td ".$cor.">".$tipo."</td>
                 <td ".$cor.">".$baixa."</td>
                 <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
                 <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
             </tr>
           </form>

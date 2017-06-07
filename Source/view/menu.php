@@ -92,7 +92,7 @@
                                 <a href="<?php echo $css; ?>adicionarUsuario.php">Adicionar usuário</a>
                             </li>
                             <li>
-                                <a href="#">Procurar usuário</a>
+                                <a href="<?php echo $css; ?>listarUsuario.php">Procurar usuário</a>
                             </li>
                         </ul>
                     </li>

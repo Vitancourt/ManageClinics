@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbContas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(150) NOT NULL,
   `data` DATE NULL,
-  `valor` DECIMAL  NULL,
+  `valor` DECIMAL(10,2)  NULL,
   `dataefetiva` DATE NULL,
   `baixa` INT NOT NULL,
   `tipo` INT NOT NULL,
