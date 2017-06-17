@@ -1,0 +1,5 @@
+Requisitos:
+Gerenciar pacientes;
+Gerenciar contas;
+Fluxo de caixa;
+Gerenciar usuários.

@@ -19,7 +19,7 @@ class Database
         //$db_usuario = "manageclinics";
         //$db_senha = "manageclinics";
         $db_usuario = "root";
-        $db_senha= "xd2ih348";
+        $db_senha= "";
         $db_driver = "mysql";
         # Informações sobre o sistema:
         $sistema_titulo = "Manage Clinic";

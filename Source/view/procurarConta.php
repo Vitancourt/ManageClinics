@@ -47,7 +47,7 @@ function mtel(v){
 <!-- Begin-Página -->
 <div id="page-wrapper">
     <div class="container-fluid">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <h2>Procurar conta</h2>
             <form action="listarConta.php" method="post">
               <div class="form-group">
@@ -76,8 +76,6 @@ function mtel(v){
                             <th>Tipo</th>
                             <th>Baixa</th>
                             <th>Visualizar</th>
-                            <th>Editar</th>
-                            <th>Excluir</th>
                         </tr>
                     </thead>
                     <tbody>

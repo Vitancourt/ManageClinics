@@ -144,13 +144,18 @@ class Usuario
             $cor = "";
           }
           echo "
-          <form action=\"../controller/conta.php\" method=\"post\">
+          <form action=\"../view/visualizarUsuario.php\" method=\"post\">
             <tr>
                 <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                 <td ".$cor.">".$row['nome']."</td>
                 <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-								<td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
+								<td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>";
+								if($row['ativo'] == 1){
+									echo "<td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>";
+								}else if($row['ativo'] == 0){
+									echo "<td><button type=\"submit\" name=\"reativar\" class=\"btn btn-warning \"> Reativar </button></td>";
+								}
+echo "
             </tr>
           </form>
           ";
@@ -233,6 +238,110 @@ class Usuario
     }
   }
 
+	public function visualizarUsuario($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbUsuario where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          echo "
+          <form action=\"visualizarUsuario.php\" method=\"post\">
+              <!-- /.row -->
+              <div class=\"row\">
+                  <div class=\"col-lg-8\">
+                      ".$erro."
+                      <div class=\"form-group\">
+                              <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                              <label>Nome de paciente</label>
+                              <input class=\"form-control\" type=\"text\" name=\"nome\" maxlength=\"50\" required value=\"".$row['nome']."\" >                                             </div>
+            ";
+            if($row['ativo'] == 0){
+              echo "
+                  <button type=\"submit\" name=\"reativar\" class=\"btn btn-warning\"> Reativar </button>
+              ";
+            }
+            echo "
+                  <button type=\"submit\" name=\"salvar\" class=\"btn btn-primary\"> Salvar alterações </button>";
+						if($row['ativo'] == 1){
+							echo "<button type=\"submit\" name=\"excluir\" class=\"btn btn-danger\"> Excluir </button>";
+						}
+echo "
+              </div>
+            </div>
+    </form>
+          ";
+        }
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+	public function reativarUsuario($id, $erro){
+		require_once("../model/Database.php");
+		$DB = Database::conectar();
+		$sql = "update tbUsuario set ativo='1' where id= :id;";
+		$consulta = $DB->prepare($sql);
+		$consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+		try{
+			$consulta->execute();
+			$erro = "<h3 style=\"color:red;\">*Usuário reativado*</h3>";
+			self::visualizarUsuario($id, $erro);
+		}catch(PDOException $e){
+			echo ($e->getMessage());
+			return false;
+		}
+	}
+
+	public function excluirUsuario($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "update tbUsuario set ativo='0' where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      $erro = "<h3 style=\"color:red;\">*Usuario excluído*</h3>";
+      self::visualizarUsuario($id, $erro);
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+	public function editarUsuario($id, $nome){
+		require_once("../model/Database.php");
+		$DB = Database::conectar();
+		$sql = "update tbUsuario set nome = :nome where id = :id";
+		$consulta = $DB->prepare($sql);
+		$consulta->bindParam(':id', $id, PDO::PARAM_STR);
+		$consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
+		try{
+			$consulta->execute();
+			if($consulta->rowCount() == 1){
+				$erro = "<h3 style=\"color:red;\">*Alterações salvas*</h3>";
+				self::visualizarUsuario($id, $erro);
+			}else if($consulta->rowCount() == 0){
+        $erro = "<h3 style=\"color:red;\">*Nada feito*</h3>";
+        self::visualizarUsuario($id, $erro);
+      }
+		}catch(PDOException $e){
+			echo ($e->getMessage());
+			return false;
+		}
+	}
+
 }
+
 
 ?>

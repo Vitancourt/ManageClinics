@@ -1,6 +1,6 @@
 <?php
 		$css = "";
-		$title = "Manage Clinics - Visualizar paciente";
+		$title = "Manage Clinics - Visualizar conta";
 		require_once("head.php");
 		require_once("../model/Usuario.php");
 		$user = new Usuario();
@@ -55,6 +55,19 @@ function mtel(v){
     v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
     v=v.replace(/(\d)(\d{4})$/,"$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
     return v;
+}
+</script>
+
+<script>
+function moeda(z){
+v = z.value;
+v=v.replace(/\D/g,"") // permite digitar apenas numero
+//v=v.replace(/(\d{1})(\d{17})$/,"$1.$2") // coloca ponto antes dos ultimos digitos
+//v=v.replace(/(\d{1})(\d{13})$/,"$1.$2") // coloca ponto antes dos ultimos 13 digitos
+//v=v.replace(/(\d{1})(\d{10})$/,"$1.$2") // coloca ponto antes dos ultimos 10 digitos
+//v=v.replace(/(\d{1})(\d{7})$/,"$1.$2") // coloca ponto antes dos ultimos 7 digitos
+v=v.replace(/(\d{1})(\d{0,1})$/,"$1,$2") // coloca virgula antes dos ultimos 4 digitos
+z.value = v;
 }
 </script>
 

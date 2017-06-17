@@ -41,23 +41,6 @@
                         <a href="homepage.php"><i class="fa fa-fw fa-dashboard"></i> Início</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#agenda"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><i class="fa fa-fw"></i> Agenda <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="agenda" class="collapse">
-                            <li>
-                                <a href="#">Ver agenda</a>
-                            </li>
-                            <li>
-                                <a href="#">Adicionar agendamento</a>
-                            </li>
-                            <li>
-                                <a href="#">Procurar agendamento</a>
-                            </li>
-                            <li>
-                                <a href="#">Gerar relatório</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#pacientes"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><i class="fa fa-fw"></i> Pacientes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="pacientes" class="collapse">
                             <li>
@@ -78,10 +61,7 @@
                                 <a href="<?php echo $css; ?>listarConta.php">Procurar conta</a>
                             </li>
                             <li>
-                                <a href="#">Fluxo de caixa</a>
-                            </li>
-                            <li>
-                                <a href="#">Gerar relatório</a>
+                                <a href="<?php echo $css; ?>fluxoCaixa.php">Fluxo de caixa</a>
                             </li>
                         </ul>
                     </li>

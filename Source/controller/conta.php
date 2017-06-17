@@ -36,15 +36,18 @@
 						require("../view/formAdicionarConta.php");
 					}
 	      }else if(isset($_POST['visualizar'])){
-					$title = ("Manage Clinics - Visualizar Conta");
-					$css = ("../view/");
-					require("../view/head.php");
-					require("../view/menu.php");
 					$id = $_POST['id'];
-					$cont->pegaDados($id);
-					
-
-	      }
+					$erro = "";
+					$cont->visualizarConta($id, $erro);
+	      }else if(isset($_POST['excluir'])){
+	        $erro = "";
+					$id = $_POST['id'];
+	        $cont->excluirConta($id, $erro);
+	      }else if(isset($_POST['salvar'])){
+					$erro = "";
+					$id = $_POST['id'];
+					$cont->editarConta($id, $_POST['descricao'], $_POST['data'], $_POST['dataefetiva'], $_POST['valor'], $erro);
+				}
 		}else{
 			header("Location: index.php");
 		}

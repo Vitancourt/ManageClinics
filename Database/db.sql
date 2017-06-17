@@ -45,32 +45,6 @@ CREATE TABLE IF NOT EXISTS `manageclinic`.`tbPaciente` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `manageclinic`.`tbAgenda`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `manageclinic`.`tbAgenda` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `data` DATE NOT NULL,
-  `horario` TIME NOT NULL,
-  `tbUsuario_id` INT UNSIGNED NOT NULL,
-  `tbPaciente_id` INT UNSIGNED NOT NULL,
-  `valor` DECIMAL NULL,
-  `baixa` INT NOT NULL,
-  `ativo` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_tbAgenda_tbUsuario_idx` (`tbUsuario_id` ASC),
-  INDEX `fk_tbAgenda_tbPaciente1_idx` (`tbPaciente_id` ASC),
-  CONSTRAINT `fk_tbAgenda_tbUsuario`
-    FOREIGN KEY (`tbUsuario_id`)
-    REFERENCES `manageclinic`.`tbUsuario` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_tbAgenda_tbPaciente1`
-    FOREIGN KEY (`tbPaciente_id`)
-    REFERENCES `manageclinic`.`tbPaciente` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

@@ -131,39 +131,6 @@ class Conta{
     }
   }
 
-  public function pegaDados($id){
-    require_once("../model/Database.php");
-    $DB = Database::conectar();
-    $sql = "select * from tbContas where id = :id limit 1";
-    $consulta = $DB->prepare($sql);
-    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
-    $consulta = $DB->prepare($sql);
-    try{
-      if($consulta->rowCount() >0){
-        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
-        foreach($linha as $row){
-          echo "
-          <form action=\"../controller/conta.php\" method=\"post\">
-              <!-- /.row -->
-              <div class=\"row\">
-                  <div class=\"col-lg-8\">
-                      ".$erro."
-                      <div class=\"form-group\">
-                              <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
-                              <label>Conta</label>
-                              <input class=\"form-control\" type=\"text\" name=\"nome\" maxlength=\"50\" required value=\"".$row['nome']."\" >
-                  </div>
-            ";
-
-
-
-        }
-      }
-    }catch(PDOException $e){
-      echo ($e->getMessage());
-      return false;
-    }
-  }
 
   public function listarConta(){
     require_once("../model/Database.php");
@@ -193,14 +160,13 @@ class Conta{
             $baixa = "Não";
           }
           echo "
-          <form action=\"../controller/conta.php\" method=\"post\">
+          <form action=\"../view/visualizarConta.php\" method=\"post\">
             <tr>
                 <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
                 <td ".$cor.">".$date."</td>
                 <td ".$cor.">".$tipo."</td>
                 <td ".$cor.">".$baixa."</td>
                 <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
             </tr>
           </form>
           ";
@@ -258,8 +224,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -308,8 +272,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -356,8 +318,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -402,8 +362,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -457,8 +415,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -507,8 +463,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -555,8 +509,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -601,8 +553,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -654,8 +604,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -704,8 +652,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -752,8 +698,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -798,8 +742,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -851,8 +793,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -901,8 +841,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -949,8 +887,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -995,8 +931,6 @@ class Conta{
                     <td ".$cor.">".$tipo."</td>
                     <td ".$cor.">".$baixa."</td>
                     <td><button type=\"submit\" name=\"visualizar\" class=\"btn btn-primary \"> Visualizar </button></td>
-                    <td><button type=\"submit\" name=\"editar\" class=\"btn btn-warning \"> Editar </button></td>
-                    <td><button type=\"submit\" name=\"excluir\" class=\"btn btn-danger \"> Excluir </button></td>
                 </tr>
               </form>
               ";
@@ -1007,6 +941,120 @@ class Conta{
           return false;
         }
       }
+    }
+  }
+
+  public function visualizarConta($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select * from tbContas where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      //echo $consulta->rowCount();
+      if($consulta->rowCount() == 1){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linha as $row){
+          echo "
+          <form action=\"../view/visualizarConta.php\" method=\"post\">
+                  ".$erro."
+                  <div class=\"form-group\">
+                          <input type=\"hidden\" name=\"id\" value=\"".$row['id']."\" />
+                          <label>Descricao</label>
+                          <input class=\"form-control\" type=\"text\" name=\"descricao\" maxlength=\"50\" required value=\"".$row['descricao']."\" >
+                          <label>Data de criação (DD/MM/AAAA)</label>
+                          <input onkeypress=\"mascara(this, mdata);\" class=\"form-control\" type=\"datetime\" name=\"data\" maxlength=\"10\" value=\"".self::reverteData($row['data'])."\"  >
+                          <label>Data efetiva (DD/MM/AAAA)</label>
+                          <input onkeypress=\"mascara(this, mdata);\" class=\"form-control\" type=\"text\" name=\"dataefetiva\" maxlength=\"10\" value=\"".self::reverteData($row['dataefetiva'])."\">
+                          <label>Valor (R$)</label>
+                          <input onkeypress=\"moeda(this);\" class=\"form-control\" type=\"text\" name=\"valor\" maxlength=\"50\" value=\"".$row['valor']."\">
+              <button type=\"submit\" name=\"salvar\" class=\"btn btn-primary\"> Salvar alterações </button>
+              <button type=\"submit\" name=\"excluir\" class=\"btn btn-danger\"> Excluir </button>
+          </form>
+          ";
+
+
+
+        }
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function excluirConta($id, $erro){
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "delete from tbContas where id= :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      echo "<h3 style=\"color:red;\">*Conta excluído*</h3>";
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function editarConta($id, $descricao, $data, $dataefetiva, $valor, $erro){
+    $data = self::converterData($data);
+    $dataefetiva = self::converterData($dataefetiva);
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "update tbContas set descricao = :descricao, valor = :valor, data = :data, dataefetiva = :dataefetiva where id = :id;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_STR);
+    $consulta->bindParam(':descricao', $descricao, PDO::PARAM_STR);
+    $consulta->bindParam(':valor', $valor, PDO::PARAM_STR);
+    $consulta->bindParam(':data', $data, PDO::PARAM_STR);
+    $consulta->bindParam(':dataefetiva', $dataefetiva, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      if($consulta->rowCount() == 1){
+        $erro = "<h3 style=\"color:red;\">*Alterações salvas*</h3>";
+        self::visualizarConta($id, $erro);
+      }else if($consulta->rowCount() == 0){
+        $erro = "<h3 style=\"color:red;\">*Nada feito*</h3>";
+        self::visualizarConta($id, $erro);
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
+    }
+  }
+
+  public function filtrar($datainicio, $datafim, $erro){
+    $datainicio = self::converterData($datainicio);
+    $datafim = self::converterData($datafim);
+    require_once("../model/Database.php");
+    $DB = Database::conectar();
+    $sql = "select SUM(valor) as valor from tbContas where dataefetiva BETWEEN :datainicio and :datafim;";
+    $consulta = $DB->prepare($sql);
+    $consulta->bindParam(':datainicio', $datainicio, PDO::PARAM_STR);
+    $consulta->bindParam(':datafim', $datafim, PDO::PARAM_STR);
+
+    try{
+      $consulta->execute();
+      if($consulta->rowCount() == 1){
+        $linha = $consulta->fetchAll(PDO::FETCH_ASSOC);
+          foreach($linha as $row){
+
+            echo  "<h3 style=\"color:red;\">*Fluxo = ".$row["valor"]."*</h3>";
+            //require_once("../view/mostrarFluxo.php");
+          }
+
+      }else if($consulta->rowCount() == 0){
+        $erro = "<h3 style=\"color:red;\">*Nada feito*</h3>";
+      }
+    }catch(PDOException $e){
+      echo ($e->getMessage());
+      return false;
     }
   }
 
