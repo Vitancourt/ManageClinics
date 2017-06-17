@@ -312,6 +312,9 @@ class Paciente extends Pessoa
       if($consulta->rowCount() == 1){
         $erro = "<h3 style=\"color:red;\">*Alterações salvas*</h3>";
         self::visualizarPaciente($id, $erro);
+      }else if($consulta->rowCount() == 0){
+        $erro = "<h3 style=\"color:red;\">*Nada feito*</h3>";
+        self::visualizarPaciente($id, $erro);
       }
     }catch(PDOException $e){
       echo ($e->getMessage());
